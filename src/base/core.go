@@ -37,6 +37,7 @@ func CreateCoreEngine(config fileUtil.Configuration) (e CoreEngine){
 	e.Window = CreateWindow(config.WINDOW_WIDTH, config.WINDOW_HEIGHT, config.NAME)
 	e.Window.MakeContextCurrent()
 	
+	e.Window.SetMouseButtonCallback(onMouse)
 	e.Window.SetKeyCallback(onKey)
 	initGl()
 	e.intiProgram(config)
@@ -120,7 +121,7 @@ func (e CoreEngine)render(){
 	gl.UseProgram(e.Program)
 
 	e.game.Render()
-	
+
 	window.SwapBuffers()
 	glfw.PollEvents()
 }
