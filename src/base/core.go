@@ -23,6 +23,7 @@ type CoreEngine struct {
 	Program uint32
 	IsRunning bool
 	time Time
+	game Game
 }
 
 func (e CoreEngine) isRunning()(bool){
@@ -31,6 +32,7 @@ func (e CoreEngine) isRunning()(bool){
 
 func CreateCoreEngine(config fileUtil.Configuration) (e CoreEngine){
 	e.config = config
+	e.game = Game{}
 	initGLFW()
 	e.Window = CreateWindow(config.WINDOW_WIDTH, config.WINDOW_HEIGHT, config.NAME)
 	e.Window.MakeContextCurrent()
@@ -84,8 +86,11 @@ func (e CoreEngine)run(){
 			render = true;
 			unprocessedTime -= frameTime
 
+			e.time.SetDelta(int64(frameTime));
+			e.game.Input()
+			e.game.Update()
 
-			if(float64(frameCounter) > float64(SECOND)){
+			if float64(frameCounter) > float64(SECOND){
 				fmt.Println(frames)
 				frames = 0;
 				frameCounter = 0
@@ -114,6 +119,8 @@ func (e CoreEngine)render(){
 
 	gl.UseProgram(e.Program)
 
+	e.game.Render()
+	
 	window.SwapBuffers()
 	glfw.PollEvents()
 }
