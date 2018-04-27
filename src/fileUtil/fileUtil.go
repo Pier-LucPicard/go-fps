@@ -49,7 +49,7 @@ func LoadShader(fileName string) (shader string){
 	fmt.Println("Loading shader:", fileName)
 	bytes, err:= ioutil.ReadFile(fileName)
 
-	shader = string(bytes)
+	shader = string(bytes) + "\x00"
 	if err != nil {
 		log.Fatalln("failed to open config:", err)
 	}
