@@ -1,5 +1,5 @@
 
-cd src/configUtil
+cd src/fileUtil
 go build
 cd ..
 go build

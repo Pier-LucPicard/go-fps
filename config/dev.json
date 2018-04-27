@@ -1,5 +1,9 @@
 {
     "WINDOW_WIDTH": 800,
     "WINDOW_HEIGHT": 600,
-    "NAME": "WINDOW-DEV"
+    "NAME": "WINDOW-DEV",
+    "SHADER": {
+        "VERTEX": "ressources/shaders/basic.vert",
+        "FRAGMENT": "ressources/shaders/basic.frag"
+    }
 }

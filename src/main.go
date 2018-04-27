@@ -5,7 +5,7 @@ import (
 	"runtime"
 	"log"
 	"strings"
-	"./configUtil"
+	"./fileUtil"
 
 	"github.com/go-gl/gl/v4.1-core/gl"
 	"github.com/go-gl/glfw/v3.2/glfw"
@@ -24,7 +24,10 @@ func init() {
 
 
 func main() {
-	config:= configUtil.LoadConfig()
+	config:= fileUtil.LoadConfig()
+
+	vertexShader:=fileUtil.LoadShader(config.SHADER.VERTEX)+ "\x00"
+	fragmentShader:=fileUtil.LoadShader(config.SHADER.FRAGMENT)+ "\x00"
 
 	if err := glfw.Init(); err != nil {
 		log.Fatalln("failed to initialize glfw:", err)
@@ -131,26 +134,3 @@ func compileShader(source string, shaderType uint32) (uint32, error) {
 	return shader, nil
 }
 
-var vertexShader = `
-#version 330
-uniform mat4 projection;
-uniform mat4 camera;
-uniform mat4 model;
-in vec3 vert;
-in vec2 vertTexCoord;
-out vec2 fragTexCoord;
-void main() {
-    fragTexCoord = vertTexCoord;
-    gl_Position = projection * camera * model * vec4(vert, 1);
-}
-` + "\x00"
-
-var fragmentShader = `
-#version 330
-uniform sampler2D tex;
-in vec2 fragTexCoord;
-out vec4 outputColor;
-void main() {
-    outputColor = texture(tex, fragTexCoord);
-}
-` + "\x00"
