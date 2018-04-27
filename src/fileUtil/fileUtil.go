@@ -18,6 +18,7 @@ type Configuration struct {
 	WINDOW_HEIGHT int
 	NAME string
 	SHADER Shader
+	FRAME_CAP int
 }
 
 

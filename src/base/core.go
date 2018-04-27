@@ -6,6 +6,7 @@ import (
 	"runtime"
 	"../fileUtil"
 	"strings"
+	"time"
 
 	"github.com/go-gl/glfw/v3.2/glfw"
 	"github.com/go-gl/gl/v4.1-core/gl"
@@ -17,9 +18,11 @@ func init() {
 
 
 type CoreEngine struct {
+	config fileUtil.Configuration
 	Window *glfw.Window
 	Program uint32
 	IsRunning bool
+	time Time
 }
 
 func (e CoreEngine) isRunning()(bool){
@@ -27,6 +30,7 @@ func (e CoreEngine) isRunning()(bool){
 }
 
 func CreateCoreEngine(config fileUtil.Configuration) (e CoreEngine){
+	e.config = config
 	initGLFW()
 	e.Window = CreateWindow(config.WINDOW_WIDTH, config.WINDOW_HEIGHT, config.NAME)
 	e.Window.MakeContextCurrent()
@@ -35,6 +39,7 @@ func CreateCoreEngine(config fileUtil.Configuration) (e CoreEngine){
 	initGl()
 	e.intiProgram(config)
 	e.IsRunning = false;
+	e.time = Time{delta: 0}
 	return
 }
 
@@ -59,13 +64,46 @@ func (e CoreEngine)Stop(){
 
 func (e CoreEngine)run(){
 	e.IsRunning = true
+	frames:= 0
+	var frameCounter int64 =0
+	frameTime := 1/float64(e.config.FRAME_CAP)
+	lastTime := GetTime()
+	var unprocessedTime float64 =0
+
+
+
 	for e.isRunning() == true {
+		var render bool = false
+		var startTime = GetTime()
+		passedTime := startTime - lastTime
+		lastTime = startTime
+
+		unprocessedTime += float64(passedTime)/  float64(SECOND)
+		frameCounter += passedTime
+		for unprocessedTime > frameTime {
+			render = true;
+			unprocessedTime -= frameTime
+
+
+			if(float64(frameCounter) > float64(SECOND)){
+				fmt.Println(frames)
+				frames = 0;
+				frameCounter = 0
+			}
+		}
+
 		if e.Window.ShouldClose(){
 			e.Stop()
 			break;
 		}
-		
-		e.render()
+
+		if render {
+			e.render()
+			frames++;
+		}else{
+			time.Sleep(1)
+		}
+
 	}
 	e.cleanUp()
 }
