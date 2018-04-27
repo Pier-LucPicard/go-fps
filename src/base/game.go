@@ -19,7 +19,7 @@ func NewGame(program uint32) Game{
 	vertex1:= geometry.NewVertex(mgl32.Vec3{-1,-1,0})
 	vertex2:= geometry.NewVertex(mgl32.Vec3{0,1,0})
 	vertex3:= geometry.NewVertex(mgl32.Vec3{1,-1,0})
-	data := []geometry.Vertex{ vertex2, vertex1, vertex3 }
+	data := []geometry.Vertex{ vertex3, vertex1, vertex2 }
 	mesh = mesh.AddVertices(data, program)
 	g.mesh= mesh
 	return g

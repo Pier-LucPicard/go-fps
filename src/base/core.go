@@ -2,7 +2,7 @@ package base
 
 import (
 	"fmt"
-	"log"
+
 	"runtime"
 	"../fileUtil"
 
@@ -34,7 +34,7 @@ func (e CoreEngine) isRunning()(bool){
 func CreateCoreEngine(config fileUtil.Configuration) (e CoreEngine){
 	e.config = config
 
-	initGLFW()
+	InitGLFW()
 
 	e.Window = CreateWindow(config.WINDOW_WIDTH, config.WINDOW_HEIGHT, config.NAME)
 	e.Window.MakeContextCurrent()
@@ -135,61 +135,3 @@ func (e CoreEngine)cleanUp(){
 	defer glfw.Terminate()
 }
 
-// func newProgram(vertexShaderSource, fragmentShaderSource string) (uint32, error) {
-// 	vertexShader, err := CompileShader(vertexShaderSource, gl.VERTEX_SHADER)
-// 	if err != nil {
-// 		return 0, err
-// 	 }
-
-// 	fragmentShader, err := CompileShader(fragmentShaderSource, gl.FRAGMENT_SHADER)
-// 	if err != nil {
-// 		return 0, err
-// 	}
-
-// 	program := gl.CreateProgram()
-
-// 	gl.AttachShader(program, vertexShader)
-// 	gl.AttachShader(program, fragmentShader)
-// 	gl.LinkProgram(program)
-
-// 	var status int32
-// 	gl.GetProgramiv(program, gl.LINK_STATUS, &status)
-// 	if status == gl.FALSE {
-// 		var logLength int32
-// 		gl.GetProgramiv(program, gl.INFO_LOG_LENGTH, &logLength)
-
-// 		log := strings.Repeat("\x00", int(logLength+1))
-// 		gl.GetProgramInfoLog(program, logLength, nil, gl.Str(log))
-
-// 		return 0, fmt.Errorf("failed to link program: %v", log)
-// 	}
-
-// 	gl.DeleteShader(vertexShader)
-// 	gl.DeleteShader(fragmentShader)
-
-// 	return program, nil
-// }
-
-// func (e CoreEngine)intiProgram(config fileUtil.Configuration) uint32{
-// 	var err error;
-// 	e.Program, err= newProgram(fileUtil.LoadShader(config.SHADER.VERTEX), fileUtil.LoadShader(config.SHADER.FRAGMENT))
-// 	if err != nil {
-// 		panic(err)
-// 	}
-// 	return e.Program
-// }
-
-func initGLFW(){
-	fmt.Println("Init GLFW")
-	if err := glfw.Init(); err != nil {
-		log.Fatalln("failed to initialize glfw:", err)
-	}
-	if err := glfw.Init(); err != nil {
-		panic(err)
-	}
-	glfw.WindowHint(glfw.Resizable, glfw.False)
-	glfw.WindowHint(glfw.ContextVersionMajor, 4)
-	glfw.WindowHint(glfw.ContextVersionMinor, 1)
-	glfw.WindowHint(glfw.OpenGLProfile, glfw.OpenGLCoreProfile)
-	glfw.WindowHint(glfw.OpenGLForwardCompatible, glfw.True)
-}

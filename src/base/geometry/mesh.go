@@ -7,7 +7,6 @@ import (
 type Mesh struct{
 	size int
 	vbo uint32
-	vao uint32
 	buffer []float32
 }
 
@@ -34,21 +33,18 @@ func (m Mesh) AddVertices( vertices []Vertex, program uint32) Mesh{
     var vao uint32
     gl.GenVertexArrays(1, &vao)
     gl.BindVertexArray(vao)
-    gl.EnableVertexAttribArray(0)
-    gl.BindBuffer(gl.ARRAY_BUFFER, vbo)
-	gl.VertexAttribPointer(0, 3, gl.FLOAT, false, 0, nil)
-	
-	 m.vao = vao
+
 	m.vbo=vbo
 	 return m
 }
 
 func (m Mesh) Draw(){
+	gl.EnableVertexAttribArray(0)
 
+	gl.BindBuffer(gl.ARRAY_BUFFER, m.vbo)
+	gl.VertexAttribPointer(0, 3, gl.FLOAT, false, 0, nil)
 
-
-	gl.BindVertexArray(m.vao)
-    gl.DrawArrays(gl.TRIANGLES, 0, int32(len(m.buffer) / 3))
-
+    gl.DrawArrays(gl.TRIANGLES, 0, int32(m.size))
+	gl.DisableVertexAttribArray(0)
 
 }
