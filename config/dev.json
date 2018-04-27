@@ -3,8 +3,8 @@
     "WINDOW_HEIGHT": 600,
     "NAME": "GO-FPS-DEV",
     "SHADER": {
-        "VERTEX": "ressources/shaders/basic.vert",
-        "FRAGMENT": "ressources/shaders/basic.frag"
+        "VERTEX": "ressources/shaders/simple.vert",
+        "FRAGMENT": "ressources/shaders/simple.frag"
     },
     "FRAME_CAP": 5000
 }

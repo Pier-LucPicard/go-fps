@@ -1,9 +1,9 @@
 package base
+
 import (
 	"github.com/go-gl/glfw/v3.2/glfw"
 )
-var angle float32;
-var position float32
+
 const NUM_KEYCODES = 256
 
 
@@ -60,6 +60,7 @@ func InputUpdate(){
 	for key, _ := range downMouse {
 		downMouse[key] = 0
 	}
+
 }
 
 
@@ -104,5 +105,9 @@ func GetMouseDown(btn glfw.MouseButton) bool{
 
 func GetMouseUp(btn glfw.MouseButton) bool {
 	return upMouse[btn] == 1
+}
+
+func GetMousePosition()(x, y float64){
+	return window.GetCursorPos()
 }
 

@@ -6,7 +6,7 @@ import (
 	"github.com/go-gl/gl/v4.1-core/gl"
 )
 
-func CompileShader(source string, shaderType uint32) (uint32, error) {
+func compileShader(source string, shaderType uint32) (uint32, error) {
 	shader := gl.CreateShader(shaderType)
 
 	csources, free := gl.Strs(source)
