@@ -22,7 +22,7 @@ func init() {
 	runtime.LockOSThread()
 }
 
-
+var angle float32 = 0
 
 func main() {
 	config:= fileUtil.LoadConfig()
@@ -101,10 +101,12 @@ func main() {
 	gl.Enable(gl.DEPTH_TEST)
 	gl.DepthFunc(gl.LESS)
 	gl.ClearColor(1.0, 1.0, 1.0, 1.0)
-
+	window.SetKeyCallback(onKey)
+	fmt.Println("Press left and right arrow to rotate the cube!");
 	for !window.ShouldClose() {
 		gl.Clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
 
+		model = mgl32.HomogRotate3D(float32(angle), mgl32.Vec3{0, 1, 0})
 		// Update
 
 		// Render
@@ -233,3 +235,14 @@ var cubeVertices = []float32{
 	1.0, 1.0, 1.0, 0.0, 1.0,
 }
 
+
+
+func onKey( w *glfw.Window, key glfw.Key, scancode int, action glfw.Action, mods glfw.ModifierKey){
+	if key == glfw.KeyEscape && action==glfw.Press {
+		w.SetShouldClose(true)
+	}else if key == glfw.KeyLeft{
+		angle = angle + 0.1
+	}else if key == glfw.KeyRight {
+		angle = angle- 0.1
+	}
+}
