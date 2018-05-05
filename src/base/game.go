@@ -2,8 +2,10 @@ package base
 
 import (
 	"fmt"
+	"math"
 	"./geometry"
 	"./shader"
+	"./transform"
 	"../fileUtil"
 	"github.com/go-gl/glfw/v3.2/glfw"
 	"github.com/go-gl/mathgl/mgl32"
@@ -13,14 +15,16 @@ type Game struct {
 	mesh geometry.Mesh
 	Shader shader.Shader
 }
+var t transform.Transform
+
 
 func NewGame(config fileUtil.Configuration) Game{
 
 
 	var g Game = Game{}
 	g.Shader = shader.InitGraphic(fileUtil.LoadShader(config.SHADER.VERTEX), fileUtil.LoadShader(config.SHADER.FRAGMENT))
-	g.Shader.AddUniform("uniformFloat");
-
+	g.Shader.AddUniform("transform");
+	t= transform.NewTransform();
 	mesh := geometry.CreateMesh()
 
 
@@ -55,12 +59,21 @@ func (g Game) Input(){
 	}
 }
 
+var tempAmount float64= 0.0;
+var temp float64= 0.0;
+
 func (g Game) Update(){
 	InputUpdate()
-	g.Shader.SetUniformf("uniformFloat", 2)
+	temp= temp+0.0001
+	tempAmount= math.Sin(temp)
+
+	t= t.SetTranslationFull(float32(tempAmount), 0.0,0.0)
+	t=t.SetRotationFull(0,0,float32(tempAmount) * 180)
+
 }
 
 func (g Game) Render(){
 	g.Shader.Bind();
+	g.Shader.SetUniformMatrix("transform", t.GetTransformation())
 	g.mesh.Draw()
 }

@@ -100,7 +100,7 @@ func (s Shader) SetUniform(uniformName string, value mgl32.Vec3){
 }
 
 func (s Shader) SetUniformMatrix(uniformName string, value mgl32.Mat4){
-	gl.UniformMatrix4fv(s.uniforms[uniformName],1 ,true, &value[0])
+	gl.UniformMatrix4fv(s.uniforms[uniformName],1 ,false, &value[0])
 }
 
 func GetOpenglVersion()(version string){
