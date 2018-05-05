@@ -9,6 +9,11 @@ type Transform struct {
 	translation mgl32.Vec3
 	rotation mgl32.Vec3
 	scale mgl32.Vec3
+	zNear float32;
+	zFar float32;
+	width float32;
+	height float32;
+	fov float32;
 }
 
 
@@ -22,6 +27,38 @@ func NewTransform() Transform{
 
 func angleToRadian( angle float32) float32{
 	return math.Pi*angle/180.0
+}
+
+func initPerspective (fov, width, height, zNear, zFar float32) mgl32.Mat4{
+	aspectRatio:= width/height
+	tanHalfFOV := math.Tan(float64(angleToRadian(fov)/2.0))
+	zRange := zNear - zFar
+
+	x1:=float32(1.0/(tanHalfFOV * float64(aspectRatio)))
+	x2:=float32(1.0/tanHalfFOV )
+	x3:=(-zNear-zFar)/zRange
+	x4:=2*zFar *zNear/zRange
+
+	return mgl32.Mat4 { 
+		x1,0,0,0,0 , x2,0 ,0,0,0,x3, 1,0,0,x4,0}
+}
+
+func (t Transform) GetProjectedTransformation() mgl32.Mat4 {
+
+	perspectiveMatrix:= initPerspective(t.fov, t.width,t.height, t.zNear, t.zFar);
+	transformMatrix := t.GetTransformation()
+
+	return perspectiveMatrix.Mul4(transformMatrix)
+}
+
+func (t Transform) SetProjection(fov, width,height,zNear, zFar float32) Transform{
+	t.fov = fov
+	t.width =width
+	t.height = height
+	t.zNear=zNear
+	t.zFar =zFar
+
+	return t
 }
 
 func (t Transform) GetTransformation() mgl32.Mat4 {

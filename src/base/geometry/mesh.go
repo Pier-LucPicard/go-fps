@@ -1,7 +1,6 @@
 package geometry
 
 import (
-	"fmt"
 	"strings"
 	"strconv"
 	"github.com/go-gl/gl/v4.1-core/gl"
@@ -100,10 +99,8 @@ func ParseObj(rawObj string) Mesh {
 			indices = append(indices, int32(x)-1)
 			indices = append(indices, int32(y)-1)
 			indices = append(indices, int32(z)-1)
-			fmt.Println("FACE" , x,y,z)
 		}
 	}
-fmt.Println(vertices, indices)
 	mesh = mesh.AddVertices(vertices, indices)
 
 	return mesh
