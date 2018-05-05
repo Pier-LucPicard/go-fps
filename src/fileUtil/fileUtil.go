@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"log"
+	"strings"
 	"encoding/json"
 	"io/ioutil"
 )
@@ -55,4 +56,23 @@ func LoadShader(fileName string) (shader string){
 		log.Fatalln("failed to open config:", err)
 	}
 	return 
+}
+
+func LoadMesh(filename string)  (mesh string) {
+
+	splitArray:= strings.Split(filename, ".");
+	extention:= splitArray[len(splitArray)-1]
+
+	if extention != "obj" {
+		log.Fatalln("Error: File format " + extention+ " not supported for the mesh data")
+	}
+
+	bytes, err:= ioutil.ReadFile(filename)
+
+	mesh = string(bytes) + "\x00"
+	if err != nil {
+		log.Fatalln("failed to open config:", err)
+	}
+	return 
+
 }

@@ -8,7 +8,7 @@ import (
 	"./transform"
 	"../fileUtil"
 	"github.com/go-gl/glfw/v3.2/glfw"
-	"github.com/go-gl/mathgl/mgl32"
+	// "github.com/go-gl/mathgl/mgl32"
 )
 
 type Game struct {
@@ -25,36 +25,39 @@ func NewGame(config fileUtil.Configuration) Game{
 	g.Shader = shader.InitGraphic(fileUtil.LoadShader(config.SHADER.VERTEX), fileUtil.LoadShader(config.SHADER.FRAGMENT))
 	g.Shader.AddUniform("transform");
 	t= transform.NewTransform();
-	mesh := geometry.CreateMesh()
+	// mesh := geometry.CreateMesh()
 
 
 
-	vertex1:= geometry.NewVertex(mgl32.Vec3{-1,-1,0})
-	vertex2:= geometry.NewVertex(mgl32.Vec3{0,1,0})
-	vertex3:= geometry.NewVertex(mgl32.Vec3{1,-1,0})
-	vertex4:= geometry.NewVertex(mgl32.Vec3{0,-1,1})
-	data := []geometry.Vertex{ vertex1, vertex2, vertex3 , vertex4}
+	// vertex1:= geometry.NewVertex(mgl32.Vec3{-1,-1,0})
+	// vertex2:= geometry.NewVertex(mgl32.Vec3{0,1,0})
+	// vertex3:= geometry.NewVertex(mgl32.Vec3{1,-1,0})
+	// vertex4:= geometry.NewVertex(mgl32.Vec3{0,-1,1})
+	// data := []geometry.Vertex{ vertex1, vertex2, vertex3 , vertex4}
 
-	var indices []int32;
+	// var indices []int32;
 
-	indices = append(indices, 0);
-	indices = append(indices, 1);
-	indices = append(indices, 3);
+	// indices = append(indices, 0);
+	// indices = append(indices, 1);
+	// indices = append(indices, 3);
 
-	indices = append(indices, 3);
-	indices = append(indices, 1);
-	indices = append(indices, 2);
+	// indices = append(indices, 3);
+	// indices = append(indices, 1);
+	// indices = append(indices, 2);
 
-	indices = append(indices, 2);
-	indices = append(indices, 1);
-	indices = append(indices, 0);
+	// indices = append(indices, 2);
+	// indices = append(indices, 1);
+	// indices = append(indices, 0);
 
-	indices = append(indices, 0);
-	indices = append(indices, 2);
-	indices = append(indices, 3);
+	// indices = append(indices, 0);
+	// indices = append(indices, 2);
+	// indices = append(indices, 3);
 
-	mesh = mesh.AddVertices(data, indices)
+	// mesh = mesh.AddVertices(data, indices)
+	mesh := geometry.ParseObj(fileUtil.LoadMesh("ressources/mesh/cube.obj"))
+
 	g.mesh= mesh
+	
 	return g
 }
 
@@ -89,7 +92,7 @@ func (g Game) Update(){
 
 	t= t.SetTranslationFull(float32(tempAmount), 0.0,0.0)
 	t=t.SetRotationFull(0,float32(tempAmount) * 180,0)
-	//t=t.SetScaleFull(float32(tempAmount),float32(tempAmount),float32(tempAmount))
+	t=t.SetScaleFull(float32(tempAmount)*0.7,float32(tempAmount)*0.7,float32(tempAmount)*0.7)
 
 }
 

@@ -1,7 +1,11 @@
 package geometry
 
 import (
+	"fmt"
+	"strings"
+	"strconv"
 	"github.com/go-gl/gl/v4.1-core/gl"
+	"github.com/go-gl/mathgl/mgl32"
 )
 
 type Mesh struct{
@@ -61,4 +65,56 @@ func (m Mesh) Draw(){
 
 	gl.DisableVertexAttribArray(0)
 
+}
+
+func ParseObj(rawObj string) Mesh { 
+
+	mesh:=CreateMesh()
+	var indices []int32;
+	var vertices []Vertex;
+
+	fileLines := strings.Split(rawObj, "\n");
+
+	for _,l:= range fileLines {
+
+		tokens := strings.Split(l, " ");
+		tokens = removeEmptyString(tokens);
+		
+		if len(tokens) == 0 || tokens[0] == "#"{
+			continue;
+		}
+
+		if tokens[0] == "v" {
+			x,_:=strconv.ParseFloat(tokens[1],64)
+			y,_:=strconv.ParseFloat(tokens[2],64)
+			z,_:=strconv.ParseFloat(tokens[3],64)
+			vertices = append(vertices, NewVertex(mgl32.Vec3{float32(x),float32(y),float32(z)}))
+			
+		}
+
+
+		if tokens[0] == "f" {
+			x,_:=strconv.ParseInt(tokens[1],10,64)
+			y,_:=strconv.ParseInt(tokens[2],10,64)
+			z,_:=strconv.ParseInt(tokens[3],10,64)
+			indices = append(indices, int32(x)-1)
+			indices = append(indices, int32(y)-1)
+			indices = append(indices, int32(z)-1)
+			fmt.Println("FACE" , x,y,z)
+		}
+	}
+fmt.Println(vertices, indices)
+	mesh = mesh.AddVertices(vertices, indices)
+
+	return mesh
+}
+
+func removeEmptyString( items []string) (res []string){
+	for _,i:= range items {
+		if i != "" {
+			res = append(res, i);
+		}
+	}
+
+	return
 }
