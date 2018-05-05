@@ -17,7 +17,7 @@ func CreateMesh() Mesh{
 	return Mesh{vbo: vbo, size:0, buffer: []float32{}}
 }
 
-func (m Mesh) AddVertices( vertices []Vertex, program uint32) Mesh{
+func (m Mesh) AddVertices( vertices []Vertex) Mesh{
 
 
 

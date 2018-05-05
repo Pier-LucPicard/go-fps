@@ -2,14 +2,10 @@ package base
 
 import (
 	"fmt"
-
 	"runtime"
 	"../fileUtil"
-
 	"time"
-
 	"github.com/go-gl/glfw/v3.2/glfw"
-	"github.com/go-gl/gl/v4.1-core/gl"
 )
 func init() {
 	// GLFW event handling must run on the main OS thread
@@ -20,7 +16,7 @@ func init() {
 type CoreEngine struct {
 	config fileUtil.Configuration
 	Window *glfw.Window
-	Program uint32
+
 	IsRunning bool
 	time Time
 	game Game
@@ -41,9 +37,9 @@ func CreateCoreEngine(config fileUtil.Configuration) (e CoreEngine){
 	
 	e.Window.SetMouseButtonCallback(onMouse)
 	e.Window.SetKeyCallback(onKey)
-	e.Program = InitGraphic(fileUtil.LoadShader(config.SHADER.VERTEX), fileUtil.LoadShader(config.SHADER.FRAGMENT))
+	e.game = NewGame(config)
 
-	e.game = NewGame(e.Program)
+
 	e.IsRunning = false;
 	e.time = Time{delta: 0}
 	return
@@ -76,7 +72,6 @@ func (e CoreEngine)run(){
 	frameTime := 1/float64(e.config.FRAME_CAP)
 	lastTime := GetTime()
 	var unprocessedTime float64 =0
-
 
 
 	for e.isRunning() == true {
@@ -122,9 +117,7 @@ func (e CoreEngine)render(){
 
 	ClearScreen()
 
-	gl.UseProgram(e.Program)
 	e.game.Render()
-
 
 	window.SwapBuffers()
 	glfw.PollEvents()
