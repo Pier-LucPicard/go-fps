@@ -36,21 +36,6 @@ func NewGame(config fileUtil.Configuration) Game{
 	data := []geometry.Vertex{ vertex1, vertex2, vertex3 , vertex4}
 
 	var indices []int32;
-	// indices = append(indices, 3);
-	// indices = append(indices, 2);
-	// indices = append(indices, 0);
-
-	// indices = append(indices, 0);
-	// indices = append(indices, 1);
-	// indices = append(indices, 2);
-
-	// indices = append(indices, 2);
-	// indices = append(indices, 1);
-	// indices = append(indices, 3);
-
-	// indices = append(indices, 3);
-	// indices = append(indices, 1);
-	// indices = append(indices, 0);
 
 	indices = append(indices, 0);
 	indices = append(indices, 1);
