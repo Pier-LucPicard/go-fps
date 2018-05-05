@@ -69,6 +69,7 @@ func (g Game) Update(){
 
 	t= t.SetTranslationFull(float32(tempAmount), 0.0,0.0)
 	t=t.SetRotationFull(0,0,float32(tempAmount) * 180)
+	t=t.SetScaleFull(float32(tempAmount),float32(tempAmount),0)
 
 }
 
