@@ -26,7 +26,7 @@ func NewGame(config fileUtil.Configuration) Game{
 	
 	t= transform.NewTransform();
 	t.SetProjection(70, float32(config.WINDOW_WIDTH), float32(config.WINDOW_HEIGHT),0.1,10000 )
-	mesh := geometry.ParseObj(fileUtil.LoadMesh("ressources/mesh/cube.obj"))
+	mesh := geometry.ParseObj(fileUtil.LoadMesh("ressources/mesh/monkey.obj"))
 
 	g.mesh= mesh
 	

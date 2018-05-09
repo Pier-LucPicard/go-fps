@@ -1,6 +1,7 @@
 package geometry
 
 import (
+
 	"strings"
 	"strconv"
 	"github.com/go-gl/gl/v4.1-core/gl"
@@ -74,14 +75,21 @@ func ParseObj(rawObj string) Mesh {
 
 	fileLines := strings.Split(rawObj, "\n");
 
+	
 	for _,l:= range fileLines {
 
+		if len(l) == 0 {
+			continue;
+		} 
 		tokens := strings.Split(l, " ");
 		tokens = removeEmptyString(tokens);
 		
-		if len(tokens) == 0 || tokens[0] == "#"{
+		if len(tokens) == 0 {
+			continue;
+		} else if tokens[0] == "#" || tokens[0] == "vt"{
 			continue;
 		}
+
 
 		if tokens[0] == "v" {
 			x,_:=strconv.ParseFloat(tokens[1],64)
@@ -93,14 +101,40 @@ func ParseObj(rawObj string) Mesh {
 
 
 		if tokens[0] == "f" {
-			x,_:=strconv.ParseInt(tokens[1],10,64)
-			y,_:=strconv.ParseInt(tokens[2],10,64)
-			z,_:=strconv.ParseInt(tokens[3],10,64)
-			indices = append(indices, int32(x)-1)
-			indices = append(indices, int32(y)-1)
-			indices = append(indices, int32(z)-1)
+			
+			if len(tokens) == 4 {
+				microTokensX:=strings.Split(tokens[1], "/");
+				microTokensY:=strings.Split(tokens[2], "/");
+				microTokensZ:=strings.Split(tokens[3], "/");
+	
+				x,_:=strconv.ParseInt(microTokensX[0],10,64)
+				y,_:=strconv.ParseInt(microTokensY[0],10,64)
+				z,_:=strconv.ParseInt(microTokensZ[0],10,64)
+				indices = append(indices, int32(x)-1)
+				indices = append(indices, int32(y)-1)
+				indices = append(indices, int32(z)-1)
+			}else if len(tokens) == 5 {
+				microTokensX:=strings.Split(tokens[1], "/");
+				microTokensY:=strings.Split(tokens[2], "/");
+				microTokensZ:=strings.Split(tokens[3], "/");
+				microTokensW:=strings.Split(tokens[4], "/");
+			
+				x,_:=strconv.ParseInt(microTokensX[0],10,64)
+				y,_:=strconv.ParseInt(microTokensY[0],10,64)
+				z,_:=strconv.ParseInt(microTokensZ[0],10,64)
+				w,_:=strconv.ParseInt(microTokensW[0],10,64)
+				indices = append(indices, int32(x)-1)
+				indices = append(indices, int32(y)-1)
+				indices = append(indices, int32(w)-1)
+
+				indices = append(indices, int32(y)-1)
+				indices = append(indices, int32(z)-1)
+				indices = append(indices, int32(w)-1)
+			}
+
 		}
 	}
+
 	mesh.AddVertices(vertices, indices)
 
 	return mesh
