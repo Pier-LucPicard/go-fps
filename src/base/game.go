@@ -25,7 +25,7 @@ func NewGame(config fileUtil.Configuration) Game{
 	g.Shader.AddUniform("transform");
 	
 	t= transform.NewTransform();
-	t=t.SetProjection(70, float32(config.WINDOW_WIDTH), float32(config.WINDOW_HEIGHT),0.1,10000 )
+	t.SetProjection(70, float32(config.WINDOW_WIDTH), float32(config.WINDOW_HEIGHT),0.1,10000 )
 	mesh := geometry.ParseObj(fileUtil.LoadMesh("ressources/mesh/cube.obj"))
 
 	g.mesh= mesh
@@ -62,8 +62,8 @@ func (g Game) Update(){
 	temp= temp+0.0001
 	tempAmount= math.Sin(temp)
 
-	t= t.SetTranslationFull(float32(tempAmount), 0.0,5.0)
-	t=t.SetRotationFull(0,float32(tempAmount) * 180,0)
+	t.SetTranslationFull(float32(tempAmount), 0.0,5.0)
+    t.SetRotationFull(0,float32(tempAmount) * 180,0)
 	//t=t.SetScaleFull(float32(tempAmount)*0.7,float32(tempAmount)*0.7,float32(tempAmount)*0.7)
 
 }

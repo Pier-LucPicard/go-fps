@@ -12,7 +12,7 @@ type Shader struct {
 	uniforms map[string]int32
 }
 
-func (s Shader) AddUniform(uniform string){
+func (s *Shader) AddUniform(uniform string){
 	unifromLocation := gl.GetUniformLocation(s.program, gl.Str(uniform+"\x00"))
 
 	if(unifromLocation == -1){
@@ -60,7 +60,7 @@ func InitGraphic(vertexShaderSource, fragmentShaderSource string) (s Shader) {
 	return s
 }
 
-func (s Shader) Bind(){
+func (s *Shader) Bind(){
 	gl.UseProgram(s.program)
 }
 
@@ -87,19 +87,19 @@ func compileShader(source string, shaderType uint32) (uint32, error) {
 	return shader, nil
 }
 
-func (s Shader) SetUniformi(uniformName string, value int32){
+func (s *Shader) SetUniformi(uniformName string, value int32){
 	gl.Uniform1i(s.uniforms[uniformName], value)
 }
 
-func (s Shader) SetUniformf(uniformName string, value float32){
+func (s *Shader) SetUniformf(uniformName string, value float32){
 	gl.Uniform1f(s.uniforms[uniformName], value)
 }
 
-func (s Shader) SetUniform(uniformName string, value mgl32.Vec3){
+func (s *Shader) SetUniform(uniformName string, value mgl32.Vec3){
 	gl.Uniform3f(s.uniforms[uniformName], value.X(), value.Y(), value.Z())
 }
 
-func (s Shader) SetUniformMatrix(uniformName string, value mgl32.Mat4){
+func (s *Shader) SetUniformMatrix(uniformName string, value mgl32.Mat4){
 	gl.UniformMatrix4fv(s.uniforms[uniformName],1 ,false, &value[0])
 }
 

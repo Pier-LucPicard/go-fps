@@ -23,7 +23,7 @@ func CreateMesh() Mesh{
 	return Mesh{vbo: vbo, size:0, buffer: []float32{}, ibo: ibo}
 }
 
-func (m Mesh) AddVertices( vertices []Vertex, indices []int32) Mesh{
+func (m *Mesh) AddVertices( vertices []Vertex, indices []int32){
 
 
 
@@ -50,10 +50,10 @@ func (m Mesh) AddVertices( vertices []Vertex, indices []int32) Mesh{
 
 	m.vbo=vbo
 	m.ibo=ibo
-	 return m
+	
 }
 
-func (m Mesh) Draw(){
+func (m *Mesh) Draw(){
 	gl.EnableVertexAttribArray(0)
 
 	gl.BindBuffer(gl.ARRAY_BUFFER, m.vbo)
@@ -101,7 +101,7 @@ func ParseObj(rawObj string) Mesh {
 			indices = append(indices, int32(z)-1)
 		}
 	}
-	mesh = mesh.AddVertices(vertices, indices)
+	mesh.AddVertices(vertices, indices)
 
 	return mesh
 }

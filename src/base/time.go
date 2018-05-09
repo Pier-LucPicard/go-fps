@@ -15,10 +15,10 @@ func GetTime() int64 {
 	return time.Now().UnixNano()
 }
 
-func (t Time) GetDelta() int64{
+func (t *Time) GetDelta() int64{
 	return t.delta
 }
 
-func (t Time) SetDelta(delta int64){
+func (t *Time) SetDelta(delta int64){
 	t.delta = delta
 }

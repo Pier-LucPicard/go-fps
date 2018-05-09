@@ -17,11 +17,11 @@ func NewVertex(pos mgl32.Vec3) Vertex{
 	return vertex;
 }
 
-func (v Vertex) GetPosition()(mgl32.Vec3){
+func (v *Vertex) GetPosition()(mgl32.Vec3){
 	return v.position
 }
 
-func (v Vertex) SetPosition(pos mgl32.Vec3){
+func (v *Vertex) SetPosition(pos mgl32.Vec3){
 	v.position = mgl32.Vec3{pos.X(), pos.Y(), pos.Z()}
 }
 

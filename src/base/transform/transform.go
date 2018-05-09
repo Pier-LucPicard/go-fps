@@ -43,7 +43,7 @@ func initPerspective (fov, width, height, zNear, zFar float32) mgl32.Mat4{
 		x1,0,0,0,0 , x2,0 ,0,0,0,x3, 1,0,0,x4,0}
 }
 
-func (t Transform) GetProjectedTransformation() mgl32.Mat4 {
+func (t *Transform) GetProjectedTransformation() mgl32.Mat4 {
 
 	perspectiveMatrix:= initPerspective(t.fov, t.width,t.height, t.zNear, t.zFar);
 	transformMatrix := t.GetTransformation()
@@ -51,62 +51,54 @@ func (t Transform) GetProjectedTransformation() mgl32.Mat4 {
 	return perspectiveMatrix.Mul4(transformMatrix)
 }
 
-func (t Transform) SetProjection(fov, width,height,zNear, zFar float32) Transform{
+func (t *Transform) SetProjection(fov, width,height,zNear, zFar float32){
 	t.fov = fov
 	t.width =width
 	t.height = height
 	t.zNear=zNear
 	t.zFar =zFar
-
-	return t
 }
 
-func (t Transform) GetTransformation() mgl32.Mat4 {
+func (t *Transform) GetTransformation() mgl32.Mat4 {
 	translationMatrix := mgl32.Translate3D(t.translation.X(),t.translation.Y(),t.translation.Z())
 	rotationMatrix := mgl32.HomogRotate3DX(angleToRadian(t.rotation.X())).Mul4(mgl32.HomogRotate3DY(angleToRadian(t.rotation.Y()))).Mul4(mgl32.HomogRotate3DZ(angleToRadian(t.rotation.Z())))
 	scaleMatrix := mgl32.Scale3D(t.scale.X(),t.scale.Y(),t.scale.Z())
 	return translationMatrix.Mul4(rotationMatrix.Mul4(scaleMatrix))
 }
 
-func (t Transform) GetTranslation() mgl32.Vec3 {
+func (t *Transform) GetTranslation() mgl32.Vec3 {
 	return t.translation;
 }
 
-func (t Transform) SetTranslation(vec mgl32.Vec3) Transform {
+func (t *Transform) SetTranslation(vec mgl32.Vec3) {
 	t.translation = vec;
-	return t
 }
 
-func (t Transform) SetTranslationFull(x, y, z float32)  Transform{
+func (t *Transform) SetTranslationFull(x, y, z float32) {
 	t.translation = mgl32.Vec3{x,y,z};
-	return t
 }
 
 func (t Transform) GetRotation()  mgl32.Vec3 {
 	return t.rotation;
 }
 
-func (t Transform) SetRotation(vec mgl32.Vec3) Transform{
+func (t *Transform) SetRotation(vec mgl32.Vec3){
 	t.rotation = vec;
-	return t
 }
 
-func (t Transform) SetRotationFull(x, y, z float32)  Transform{
+func (t *Transform) SetRotationFull(x, y, z float32) {
 	t.rotation = mgl32.Vec3{x,y,z};
-	return t
 }
 
 
-func (t Transform) GetScale()  mgl32.Vec3 {
+func (t *Transform) GetScale()  mgl32.Vec3 {
 	return t.scale;
 }
 
-func (t Transform) SetScale(vec mgl32.Vec3) Transform{
+func (t *Transform) SetScale(vec mgl32.Vec3) {
 	t.scale = vec;
-	return t
 }
 
-func (t Transform) SetScaleFull(x, y, z float32)  Transform{
+func (t *Transform) SetScaleFull(x, y, z float32)  {
 	t.scale = mgl32.Vec3{x,y,z};
-	return t
 }
