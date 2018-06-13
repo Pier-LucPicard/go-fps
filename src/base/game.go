@@ -3,6 +3,7 @@ package base
 import (
 	"fmt"
 	"math"
+	"./camera"
 	"./geometry"
 	"./shader"
 	"./transform"
@@ -19,7 +20,8 @@ var t transform.Transform
 
 func NewGame(config fileUtil.Configuration) Game{
 
-
+	c:=camera.NewCamera()
+	c.GetPosition()
 	var g Game = Game{}
 	g.Shader = shader.InitGraphic(fileUtil.LoadShader(config.SHADER.VERTEX), fileUtil.LoadShader(config.SHADER.FRAGMENT))
 	g.Shader.AddUniform("transform");
